@@ -1,36 +1,32 @@
-import js from "@eslint/js";
+import eslint from "@eslint/js";
+import tsParser from "@typescript-eslint/parser";
 import { defineConfig } from "eslint/config";
-import pluginImport from "eslint-plugin-import";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
+import * as pluginImportX from "eslint-plugin-import-x";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-const jsxRuntime = {
-    rules: {
-        "react/react-in-jsx-scope": 0,
-        "react/jsx-uses-react": 0,
-    },
-};
-
 export default defineConfig([
-    {
-        files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-        plugins: { js },
-        extends: ["js/recommended"],
-    },
+    eslint.configs.recommended,
+    tseslint.configs.recommended,
+    pluginReact.configs.flat.recommended,
     {
         files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
         languageOptions: { globals: globals.browser },
     },
-    tseslint.configs.recommended,
-    pluginReact.configs.flat.recommended,
-    jsxRuntime,
-    pluginImport.flatConfigs.recommended,
+    pluginImportX.flatConfigs.recommended,
+    pluginImportX.flatConfigs.typescript,
     {
         files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-        plugins: { pluginImport },
+        // ignores: ["eslint.config.js"],
+        languageOptions: {
+            parser: tsParser,
+            ecmaVersion: "latest",
+            sourceType: "module",
+        },
         rules: {
-            "import/order": [
+            "import-x/order": [
                 "warn",
                 {
                     "newlines-between": "always",
@@ -45,11 +41,8 @@ export default defineConfig([
                     ignoreRestSiblings: true,
                 },
             ],
+            "react/react-in-jsx-scope": "off",
         },
     },
-    {
-        files: ["**/*.{ts,tsx}"],
-        plugins: { pluginImport },
-        extends: [pluginImport.flatConfigs.typescript],
-    },
+    eslintConfigPrettier,
 ]);

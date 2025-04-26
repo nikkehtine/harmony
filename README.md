@@ -1,6 +1,6 @@
 # Harmony
 
-> Discord alternative
+> Discord clone (Go, React, Tailwind, React Router)
 
 ## Set up
 
