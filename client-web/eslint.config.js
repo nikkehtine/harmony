@@ -37,6 +37,14 @@ export default defineConfig([
                     alphabetize: { order: "asc", caseInsensitive: true },
                 },
             ],
+            "no-unused-vars": [
+                "warn",
+                {
+                    argsIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    ignoreRestSiblings: true,
+                },
+            ],
         },
     },
     {
